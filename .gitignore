@@ -1,0 +1,13 @@
+# Token y configuración privada
+config.py
+.env
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
