@@ -1,7 +1,7 @@
+import os
+
 import discord
 from discord.ext import commands
-
-import config
 
 
 # =========================================================
@@ -22,26 +22,23 @@ class SplitMusicBot(commands.Bot):
         )
 
     async def setup_hook(self):
-        print(
-            "Cargando módulos..."
-        )
+        print("Cargando módulos...")
 
+        # Cargar comandos generales
         await self.load_extension(
             "cogs.general"
         )
 
-        print(
-            "✅ General cargado"
-        )
+        print("✅ General cargado")
 
+        # Cargar comandos de música
         await self.load_extension(
             "cogs.music"
         )
 
-        print(
-            "✅ Music cargado"
-        )
+        print("✅ Music cargado")
 
+        # Sincronizar Slash Commands
         try:
             synced = await self.tree.sync()
 
@@ -57,11 +54,15 @@ class SplitMusicBot(commands.Bot):
             )
 
 
+# =========================================================
+# CREAR BOT
+# =========================================================
+
 bot = SplitMusicBot()
 
 
 # =========================================================
-# READY
+# EVENTO READY
 # =========================================================
 
 @bot.event
@@ -103,9 +104,24 @@ async def on_ready():
 
 
 # =========================================================
-# INICIAR
+# TOKEN
+# =========================================================
+
+TOKEN = os.getenv(
+    "DISCORD_TOKEN"
+)
+
+if not TOKEN:
+    raise RuntimeError(
+        "No se encontró la variable de entorno "
+        "DISCORD_TOKEN."
+    )
+
+
+# =========================================================
+# INICIAR BOT
 # =========================================================
 
 bot.run(
-    config.TOKEN
+    TOKEN
 )
