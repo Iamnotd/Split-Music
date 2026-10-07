@@ -3,6 +3,8 @@ import os
 import discord
 from discord.ext import commands
 
+from webservice import iniciar_webservice
+
 
 # =========================================================
 # CONFIGURACIÓN
@@ -24,21 +26,44 @@ class SplitMusicBot(commands.Bot):
     async def setup_hook(self):
         print("Cargando módulos...")
 
-        # Cargar comandos generales
+        # =============================================
+        # WEB SERVICE PARA RENDER
+        # =============================================
+
+        await iniciar_webservice()
+
+        print(
+            "✅ Web Service cargado"
+        )
+
+        # =============================================
+        # COG GENERAL
+        # =============================================
+
         await self.load_extension(
             "cogs.general"
         )
 
-        print("✅ General cargado")
+        print(
+            "✅ General cargado"
+        )
 
-        # Cargar comandos de música
+        # =============================================
+        # COG MUSIC
+        # =============================================
+
         await self.load_extension(
             "cogs.music"
         )
 
-        print("✅ Music cargado")
+        print(
+            "✅ Music cargado"
+        )
 
-        # Sincronizar Slash Commands
+        # =============================================
+        # SLASH COMMANDS
+        # =============================================
+
         try:
             synced = await self.tree.sync()
 
@@ -62,7 +87,7 @@ bot = SplitMusicBot()
 
 
 # =========================================================
-# EVENTO READY
+# READY
 # =========================================================
 
 @bot.event
@@ -119,7 +144,7 @@ if not TOKEN:
 
 
 # =========================================================
-# INICIAR BOT
+# INICIAR
 # =========================================================
 
 bot.run(
